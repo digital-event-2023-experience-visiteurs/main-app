@@ -28,7 +28,9 @@ div {
 	border: none;
 	border-radius: 5px;
 	padding: 10px 20px;
-	font-size: 1.2rem;
+	font-size: 20px;
 	cursor: pointer;
+	font-family: var(--fontPrimary);
+	font-weight: 800;
 }
 </style>
