@@ -3,7 +3,9 @@ import { ref } from 'vue'
 
 export const useUserStore = defineStore('user', () => {
 	const user = ref({
-		name
+		name: '',
+		lastname: '',
+		
 	})
 
 	return { user }
