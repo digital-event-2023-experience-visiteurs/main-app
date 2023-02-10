@@ -18,7 +18,7 @@ const router = createRouter({
 		{
 			path: "/reservation-2",
 			name: "reservation-2",
-			component: () => import("../views/ReservationForm3.vue"),
+			component: () => import("../views/ReservationForm2.vue"),
 		},
 		{
 			path: "/reservation-3",

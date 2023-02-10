@@ -1,32 +1,41 @@
 <script setup></script>
 
 <template>
-	<div>
-		<img src="/logo-esd.svg" alt="" />
-		<h2>Dites-nous en plus sur vous</h2>
-	</div>
+	<section class="allDiv">
+		<div>
+			<img src="/logo-esd.svg" alt="" />
+			<h2>Dites-nous en plus sur vous</h2>
+		</div>
 
-	<div>
-		<form class="inputs" action="">
-			<label for="">Nom*</label>
-			<input type="text" />
-			<label for="">Prénom*</label>
-			<input type="text" />
-			<label for="">Adresse mail*</label>
-			<input type="text" />
-		</form>
-	</div>
+		<div>
+			<form class="inputs" action="">
+				<label for="">Nom*</label>
+				<input type="text" />
+				<label for="">Prénom*</label>
+				<input type="text" />
+				<label for="">Adresse mail*</label>
+				<input type="text" />
+			</form>
+		</div>
 
-	<div class="buttons">
-		<button class="btnNoneBorder">Précédent</button>
-		<button class="btnWithBorder">Suivant</button>
-	</div>
+		<div class="buttons">
+			<button class="btnNoneBorder">Précédent</button>
+			<button class="btnWithBorder">Suivant</button>
+		</div>
+	</section>
 </template>
 
 <style scoped>
-div {
-	margin: 24px;
+.allDiv {
+    /* margin: 32px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    gap: 70px;
 }
+
 img {
 	width: 50px;
 	height: 40px;
@@ -60,7 +69,7 @@ form input {
 .buttons {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
+
 	gap: 16px;
 }
 
