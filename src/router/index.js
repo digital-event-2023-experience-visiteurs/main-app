@@ -35,6 +35,24 @@ const router = createRouter({
 			name: "reservation-confirm",
 			component: () => import("../views/ReservationConfirm.vue"),
 		},
+
+		// Photobooth
+
+		{
+			path: "/photobooth-picture",
+			name: "reservation-picture",
+			component: () => import("../views/PhotoboothPicture.vue"),
+		},
+		{
+			path: "/photobooth-confirm",
+			name: "reservation-confirm",
+			component: () => import("../views/PhotoboothConfirm.vue"),
+		},
+		{
+			path: "/photobooth-qrcode",
+			name: "reservation-qrcode",
+			component: () => import("../views/PhotoboothQrcode.vue"),
+		},
 	],
 })
 
