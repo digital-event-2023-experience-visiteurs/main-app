@@ -10,7 +10,7 @@ const isEscapeGameSelected = ref()
 <template>
 	<h2>Maintenant parlons activités</h2>
 	<form @submit="">
-		<p>Souhaitez vous réserver un créneau pour l’Escape Game ?</p>
+		<h3>Souhaitez vous réserver un créneau pour l’Escape Game ?</h3>
 		<div class="input-radio">
 			<input
 				type="radio"
@@ -32,8 +32,8 @@ const isEscapeGameSelected = ref()
 			<label for="non">Non</label>
 		</div>
 
-		<div v-if="isEscapeGameSelected">
-			<p>Quel jour souhaitez-vous réserver ?</p>
+		<template v-if="isEscapeGameSelected">
+			<h3>Quel jour souhaitez-vous réserver ?</h3>
 			<div class="input-radio">
 				<input
 					type="radio"
@@ -52,7 +52,47 @@ const isEscapeGameSelected = ref()
 				/>
 				<label for="12">Samedi 11 février</label>
 			</div>
-		</div>
+
+			<h3>Choisissez un créneau horaire</h3>
+			<div class="form-hour">
+				<div class="input-radio">
+					<input
+						type="radio"
+						name="escape-game-day"
+						id="14h"
+						:value="true"
+					/>
+					<label for="14h">14:00</label>
+				</div>
+				<div class="input-radio">
+					<input
+						type="radio"
+						name="escape-game-day"
+						id="14h30"
+						:value="true"
+					/>
+					<label for="14h30">14:50</label>
+				</div>
+				<div class="input-radio">
+					<input
+						type="radio"
+						name="escape-game-day"
+						id="15h40"
+						:value="true"
+					/>
+					<label for="15h40">15:40</label>
+				</div>
+				<div class="input-radio">
+					<input
+						type="radio"
+						name="escape-game-day"
+						id="16h30"
+						:value="true"
+					/>
+					<label for="16h30">16:30</label>
+				</div>
+			</div>
+		</template>
 
 		<div id="button-group">
 			<button
@@ -78,6 +118,7 @@ const isEscapeGameSelected = ref()
 	margin: 16px 0;
 }
 
+.form-day,
 form {
 	display: flex;
 	flex-direction: column;
@@ -92,8 +133,15 @@ p {
 	margin: 0;
 }
 
-form > p {
+h3 {
 	font-weight: 500;
 	font-size: 20px;
+	margin: 0;
+}
+
+.form-hour {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-gap: 16px;
 }
 </style>
