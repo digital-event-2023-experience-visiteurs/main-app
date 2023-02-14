@@ -52,7 +52,7 @@ onMounted(async () => {
 <template>
 	<img class="logo" src="/logo-esd.svg" alt="Logo ESD" />
 	<h1>Vous êtes prêt pour démarrer la soirée !</h1>
-	<template v-if="reservation.isValid()">
+	<template v-if="reservation.data.schedules.length !== 0">
 		<h2>Votre réservation</h2>
 		<div v-for="reservation of getReservation(user)" class="ticket">
 			<img src="/ticket.svg" alt="ticket" />
