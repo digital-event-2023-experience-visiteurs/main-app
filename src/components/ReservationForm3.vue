@@ -52,18 +52,27 @@ onMounted(async () => {
 <template>
 	<img class="logo" src="/logo-esd.svg" alt="Logo ESD" />
 	<h1>Vous êtes prêt pour démarrer la soirée !</h1>
-	<h2>Votre réservation</h2>
-	<div v-for="reservation of getReservation(user)" class="ticket">
-		<img src="/ticket.svg" alt="ticket" />
+	<template v-if="reservation.isValid()">
+		<h2>Votre réservation</h2>
+		<div v-for="reservation of getReservation(user)" class="ticket">
+			<img src="/ticket.svg" alt="ticket" />
+			<p>
+				{{ reservation.workshop }} - {{ reservation.hour }} <br />
+				{{ reservation.date }}
+			</p>
+		</div>
+		<h3>
+			Conservez bien votre / vos réservation(s), et pensez à arriver 5
+			minutes en avance.
+		</h3>
+	</template>
+	<template v-else>
 		<p>
-			{{ reservation.workshop }} - {{ reservation.hour }} <br />
-			{{ reservation.date }}
+			Vous ne vous êtes pas inscrits aux ateliers précédents mais pas
+			d'inquiétudes ! Il y a de très nombreuses choses à voir et à faire à
+			l'ESD ;)
 		</p>
-	</div>
-	<h3>
-		Conservez bien votre / vos réservation(s), et pensez à arriver 5 minutes
-		en avance.
-	</h3>
+	</template>
 </template>
 
 <style scoped>
