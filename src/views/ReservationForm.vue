@@ -6,7 +6,12 @@ import ReservationForm3 from "@/components/ReservationForm3.vue"
 import Stars from "../components/Stars.vue"
 
 const reservation = useReservationStore()
-const forms = [ReservationForm1, ReservationForm2, ReservationForm3]
+const forms = [
+	ReservationForm1,
+	ReservationForm2,
+	ReservationForm2,
+	ReservationForm3,
+]
 </script>
 
 <template>
@@ -17,7 +22,10 @@ const forms = [ReservationForm1, ReservationForm2, ReservationForm3]
 	></Stars>
 	<div id="container">
 		<img src="/logo-esd.svg" alt="Logo ESD Digital Event 2023" />
-		<component :is="forms[reservation.step]"></component>
+		<component
+			:is="forms[reservation.step]"
+			:key="reservation.step"
+		></component>
 	</div>
 </template>
 

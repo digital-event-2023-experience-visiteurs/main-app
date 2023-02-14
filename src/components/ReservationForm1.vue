@@ -14,7 +14,7 @@ function updateReservationFields(input) {
 
 <template>
 	<h2>Dites-nous en plus sur vous</h2>
-	<form @submit="reservation.step += 1">
+	<form @submit.prevent="reservation.step += 1">
 		<div class="input-text">
 			<label for="lastname">Nom <span>*</span></label>
 			<input

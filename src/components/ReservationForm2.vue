@@ -1,16 +1,113 @@
 <script setup>
 import { useReservationStore } from "@/stores/reservation.js"
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
+import { fetchSchedules } from "../utils/api.js"
+
+const schedulesSteps = {
+	1: {
+		id: "escapeGame",
+		name: "Esape Game",
+	},
+	2: {
+		id: "drone",
+		name: "drone",
+	},
+}
 
 const reservation = useReservationStore()
-
 const isEscapeGameSelected = ref()
+const daySelected = ref()
+const allSchedules = ref()
+
+const formattedDays = ref()
+const dateFormat = {
+	weekday: "long",
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+}
+const scheduleDateTimeFormat = new Intl.DateTimeFormat("fr-FR", {
+	hour: "numeric",
+	minute: "numeric",
+})
+
+async function getDaysFromSchedules(schedules) {
+	const days = []
+
+	schedules.forEach((schedule) => {
+		if (!schedule.available) return
+
+		const day = new Date(schedule.datetime).toLocaleDateString(
+			"fr-FR",
+			dateFormat
+		)
+		if (days.filter((d) => d.formatted === day).length !== 0) return
+
+		days.push({
+			formatted: day,
+			raw: new Date(schedule.datetime),
+		})
+	})
+
+	return days
+}
+
+function areDatesDaysEquals(date1, date2) {
+	const d1 = new Date(date1)
+	const d2 = new Date(date2)
+	return (
+		new Date(d1.getFullYear(), d1.getMonth(), d1.getDate()).getTime() ===
+		new Date(d2.getFullYear(), d2.getMonth(), d2.getDate()).getTime()
+	)
+}
+
+function getSchedulesByDate(schedules, date) {
+	const hours = []
+
+	schedules.forEach((schedule) => {
+		if (!schedule.available) return
+
+		const rawHour = new Date(schedule.datetime)
+		if (!areDatesDaysEquals(schedule.datetime, date)) return
+
+		const hour = scheduleDateTimeFormat.format(rawHour)
+		if (hours.filter((d) => d.formatted === hour).length !== 0) return
+
+		hours.push({
+			formatted: hour,
+			raw: new Date(schedule.datetime),
+		})
+	})
+
+	return hours
+}
+
+async function getSchedules() {
+	try {
+		return await fetchSchedules()
+	} catch (error) {
+		console.error(error)
+	}
+}
+
+function onFormSubmit() {
+	reservation.step += 1
+}
+
+onMounted(async () => {
+	allSchedules.value = await getSchedules()
+	allSchedules.value = allSchedules.value[schedulesSteps[reservation.step].id]
+	formattedDays.value = await getDaysFromSchedules(allSchedules.value)
+})
 </script>
 
 <template>
 	<h2>Maintenant parlons activités</h2>
-	<form @submit="">
-		<h3>Souhaitez vous réserver un créneau pour l’Escape Game ?</h3>
+	<form @submit.prevent="onFormSubmit">
+		<h3>
+			Souhaitez vous réserver un créneau pour
+			{{ schedulesSteps[reservation.step].name }} ?
+		</h3>
 		<div class="input-radio">
 			<input
 				type="radio"
@@ -34,62 +131,37 @@ const isEscapeGameSelected = ref()
 
 		<template v-if="isEscapeGameSelected">
 			<h3>Quel jour souhaitez-vous réserver ?</h3>
-			<div class="input-radio">
+			<div v-for="day of formattedDays" class="input-radio">
 				<input
 					type="radio"
-					name="escape-game-day"
-					id="11"
-					:value="true"
+					name="day-selection"
+					:id="day.formatted"
+					:value="day.raw"
+					v-model="daySelected"
 				/>
-				<label for="11">Vendredi 10 février</label>
+				<label :for="day.formatted">{{ day.formatted }}</label>
 			</div>
-			<div class="input-radio">
-				<input
-					type="radio"
-					name="escape-game-day"
-					id="12"
-					:value="true"
-				/>
-				<label for="12">Samedi 11 février</label>
-			</div>
+		</template>
 
+		<template v-if="isEscapeGameSelected && daySelected">
 			<h3>Choisissez un créneau horaire</h3>
 			<div class="form-hour">
-				<div class="input-radio">
+				<div
+					v-for="schedule of getSchedulesByDate(
+						allSchedules,
+						daySelected
+					)"
+					class="input-radio"
+				>
 					<input
 						type="radio"
-						name="escape-game-day"
-						id="14h"
-						:value="true"
+						name="hour-selection"
+						:id="schedule.formatted"
+						:value="schedule.raw"
 					/>
-					<label for="14h">14:00</label>
-				</div>
-				<div class="input-radio">
-					<input
-						type="radio"
-						name="escape-game-day"
-						id="14h30"
-						:value="true"
-					/>
-					<label for="14h30">14:50</label>
-				</div>
-				<div class="input-radio">
-					<input
-						type="radio"
-						name="escape-game-day"
-						id="15h40"
-						:value="true"
-					/>
-					<label for="15h40">15:40</label>
-				</div>
-				<div class="input-radio">
-					<input
-						type="radio"
-						name="escape-game-day"
-						id="16h30"
-						:value="true"
-					/>
-					<label for="16h30">16:30</label>
+					<label :for="schedule.formatted">{{
+						schedule.formatted
+					}}</label>
 				</div>
 			</div>
 		</template>
