@@ -17,3 +17,10 @@ npm run dev
 ```sh
 npm run build
 ```
+
+# TODO
+
+-   Page de confirmation quand on a rien reservé
+-   Message quand aucun créneau n'est disponible
+-   Quand on fait précédent, remettre les choix de jours et d'horaires comme ils étaient
+-   Griser bouttons suivant si "oui / non" pas coché
