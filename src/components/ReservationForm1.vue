@@ -10,12 +10,25 @@ function updateReservationFields(input) {
 	const value = input.target.value
 	reservation.data[field] = value
 }
+
+function validEmail(email) {
+	const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+	return regex.test(email)
+}
+
+function submitFormHandler() {
+	if (validEmail(reservation.data.email)) {
+		reservation.step += 1
+	} else {
+		alert("L'adresse e-mail n'est pas valide")
+	}
+}
 </script>
 
 <template>
 	<img src="/logo-esd.svg" alt="Logo ESD Digital Event 2023" />
 	<h2>Dites-nous en plus sur vous</h2>
-	<form @submit.prevent="reservation.step += 1">
+	<form @submit.prevent="submitFormHandler">
 		<div class="input-text">
 			<label for="lastname">Nom <span>*</span></label>
 			<input
