@@ -155,6 +155,8 @@ onMounted(async () => {
 				<label :for="day.formatted">{{ day.formatted }}</label>
 			</div>
 
+			<p v-if="formattedDays.length === 0">Aucun créneau disponible :(</p>
+
 			<template v-if="daySelected">
 				<h3>Choisissez un créneau horaire</h3>
 				<div class="form-hour">
