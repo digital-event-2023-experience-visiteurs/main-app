@@ -15,7 +15,7 @@ const router = useRouter()
 		<main>
 			<img src="/logo-esd.svg" alt="Logo ESD Digital Event 2023" />
 			<button
-				@click="router.push('/reservation')"
+				@click="router.push('/register')"
 				class="btn-primary"
 				type="button"
 			>

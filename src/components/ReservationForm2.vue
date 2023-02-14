@@ -15,18 +15,20 @@ const schedulesSteps = {
 }
 
 const reservation = useReservationStore()
-const isEscapeGameSelected = ref()
+const isWorkshopSelected = ref()
 const daySelected = ref()
+const hourSelected = ref()
 const allSchedules = ref()
 
 const formattedDays = ref()
-const dateFormat = {
+
+const dayDateTimeFormat = new Intl.DateTimeFormat("fr-FR", {
 	weekday: "long",
 	year: "numeric",
 	month: "long",
 	day: "numeric",
-}
-const scheduleDateTimeFormat = new Intl.DateTimeFormat("fr-FR", {
+})
+const hoursDateTimeFormat = new Intl.DateTimeFormat("fr-FR", {
 	hour: "numeric",
 	minute: "numeric",
 })
@@ -37,10 +39,7 @@ async function getDaysFromSchedules(schedules) {
 	schedules.forEach((schedule) => {
 		if (!schedule.available) return
 
-		const day = new Date(schedule.datetime).toLocaleDateString(
-			"fr-FR",
-			dateFormat
-		)
+		const day = dayDateTimeFormat.format(new Date(schedule.datetime))
 		if (days.filter((d) => d.formatted === day).length !== 0) return
 
 		days.push({
@@ -70,7 +69,7 @@ function getSchedulesByDate(schedules, date) {
 		const rawHour = new Date(schedule.datetime)
 		if (!areDatesDaysEquals(schedule.datetime, date)) return
 
-		const hour = scheduleDateTimeFormat.format(rawHour)
+		const hour = hoursDateTimeFormat.format(rawHour)
 		if (hours.filter((d) => d.formatted === hour).length !== 0) return
 
 		hours.push({
@@ -92,16 +91,29 @@ async function getSchedules() {
 
 function onFormSubmit() {
 	reservation.step += 1
+
+	if (!isWorkshopSelected.value) return
+	if (!hourSelected.value) return
+
+	reservation.data.schedules.push({
+		id: schedulesSteps[reservation.step - 1].id,
+		datetime: hourSelected.value,
+	})
 }
 
-onMounted(async () => {
+async function updateSchedules() {
 	allSchedules.value = await getSchedules()
 	allSchedules.value = allSchedules.value[schedulesSteps[reservation.step].id]
 	formattedDays.value = await getDaysFromSchedules(allSchedules.value)
+}
+
+onMounted(async () => {
+	updateSchedules()
 })
 </script>
 
 <template>
+	<img src="/logo-esd.svg" alt="Logo ESD Digital Event 2023" />
 	<h2>Maintenant parlons activités</h2>
 	<form @submit.prevent="onFormSubmit">
 		<h3>
@@ -111,25 +123,26 @@ onMounted(async () => {
 		<div class="input-radio">
 			<input
 				type="radio"
-				name="escape-game"
+				name="workshop"
 				id="yes"
 				:value="true"
-				v-model="isEscapeGameSelected"
+				v-model="isWorkshopSelected"
+				@click="updateSchedules"
 			/>
 			<label for="yes">Oui</label>
 		</div>
 		<div class="input-radio">
 			<input
 				type="radio"
-				name="escape-game"
+				name="workshop"
 				id="non"
 				:value="false"
-				v-model="isEscapeGameSelected"
+				v-model="isWorkshopSelected"
 			/>
 			<label for="non">Non</label>
 		</div>
 
-		<template v-if="isEscapeGameSelected">
+		<template v-if="isWorkshopSelected">
 			<h3>Quel jour souhaitez-vous réserver ?</h3>
 			<div v-for="day of formattedDays" class="input-radio">
 				<input
@@ -141,29 +154,30 @@ onMounted(async () => {
 				/>
 				<label :for="day.formatted">{{ day.formatted }}</label>
 			</div>
-		</template>
 
-		<template v-if="isEscapeGameSelected && daySelected">
-			<h3>Choisissez un créneau horaire</h3>
-			<div class="form-hour">
-				<div
-					v-for="schedule of getSchedulesByDate(
-						allSchedules,
-						daySelected
-					)"
-					class="input-radio"
-				>
-					<input
-						type="radio"
-						name="hour-selection"
-						:id="schedule.formatted"
-						:value="schedule.raw"
-					/>
-					<label :for="schedule.formatted">{{
-						schedule.formatted
-					}}</label>
+			<template v-if="daySelected">
+				<h3>Choisissez un créneau horaire</h3>
+				<div class="form-hour">
+					<div
+						v-for="schedule of getSchedulesByDate(
+							allSchedules,
+							daySelected
+						)"
+						class="input-radio"
+					>
+						<input
+							type="radio"
+							name="hour-selection"
+							:id="schedule.formatted"
+							:value="schedule.raw"
+							v-model="hourSelected"
+						/>
+						<label :for="schedule.formatted">{{
+							schedule.formatted
+						}}</label>
+					</div>
 				</div>
-			</div>
+			</template>
 		</template>
 
 		<div id="button-group">
@@ -209,6 +223,13 @@ h3 {
 	font-weight: 500;
 	font-size: 20px;
 	margin: 0;
+}
+
+img {
+	position: relative;
+	z-index: 1;
+
+	width: 40px;
 }
 
 .form-hour {

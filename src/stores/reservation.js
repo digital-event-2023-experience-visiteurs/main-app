@@ -6,8 +6,13 @@ export const useReservationStore = defineStore("reservation", () => {
 		name: "",
 		lastname: "",
 		email: "",
+		schedules: [],
 	})
 	const step = ref(0)
 
-	return { data, step }
+	function isValid() {
+		return data.name !== "" && data.lastname !== "" && data.email !== ""
+	}
+
+	return { data, step, isValid }
 })

@@ -13,6 +13,7 @@ function updateReservationFields(input) {
 </script>
 
 <template>
+	<img src="/logo-esd.svg" alt="Logo ESD Digital Event 2023" />
 	<h2>Dites-nous en plus sur vous</h2>
 	<form @submit.prevent="reservation.step += 1">
 		<div class="input-text">
@@ -84,5 +85,12 @@ form {
 	justify-content: space-between;
 
 	margin: 16px 0;
+}
+
+img {
+	position: relative;
+	z-index: 1;
+
+	width: 40px;
 }
 </style>

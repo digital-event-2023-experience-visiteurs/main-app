@@ -21,7 +21,6 @@ const forms = [
 		:css-width-percent="100"
 	></Stars>
 	<div id="container">
-		<img src="/logo-esd.svg" alt="Logo ESD Digital Event 2023" />
 		<component
 			:is="forms[reservation.step]"
 			:key="reservation.step"
@@ -48,12 +47,5 @@ const forms = [
 	margin: auto;
 
 	color: #fff;
-}
-
-img {
-	position: relative;
-	z-index: 1;
-
-	width: 40px;
 }
 </style>
