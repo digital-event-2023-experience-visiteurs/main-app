@@ -10,7 +10,7 @@ const schedulesSteps = {
 	},
 	2: {
 		id: "drone",
-		name: "drone",
+		name: "Drone",
 	},
 }
 

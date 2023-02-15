@@ -30,7 +30,7 @@ const hoursDateTimeFormat = new Intl.DateTimeFormat("fr-FR", {
 
 const schedulesNames = {
 	escapeGame: "Esape Game",
-	drone: "drone",
+	drone: "Drone",
 }
 
 function getReservation(data) {
