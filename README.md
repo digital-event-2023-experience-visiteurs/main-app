@@ -17,3 +17,8 @@ npm run dev
 ```sh
 npm run build
 ```
+
+# TODO
+
+-   Quand on fait précédent, remettre les choix de jours et d'horaires comme ils étaient
+-   Griser bouttons suivant si "oui / non" pas coché

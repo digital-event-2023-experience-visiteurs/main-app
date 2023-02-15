@@ -1,36 +1,58 @@
-<script setup></script>
+<script setup>
+import { useRouter } from "vue-router"
+import Stars from "../components/Stars.vue"
+
+const router = useRouter()
+</script>
 
 <template>
-	<div>
-		<img src="/logo-esd.svg" alt="" />
-		<button class="btnPrimary">Réserver mon activité</button>
+	<Stars
+		:quantity="30"
+		:css-height-percent="30"
+		:css-width-percent="100"
+	></Stars>
+	<div id="container">
+		<main>
+			<img src="/logo-esd.svg" alt="Logo ESD Digital Event 2023" />
+			<button
+				@click="router.push('/register')"
+				class="btn-primary"
+				type="button"
+			>
+				<p>Réserver mon activité</p>
+			</button>
+		</main>
 	</div>
 </template>
 
 <style scoped>
-div {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+#container {
+	position: relative;
+	max-width: 600px;
+
+	width: 100vw;
 	height: 100vh;
-	gap: 70px;
+
+	margin: auto;
 }
 
-/* img {
-} */
+main {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 64px;
 
-.btnPrimary {
-	width: 290px;
-	height: 55px;
-	background-color: var(--blue);
-	color: var(--yellow);
-	border: none;
-	border-radius: 5px;
-	padding: 10px 20px;
-	font-size: 20px;
-	cursor: pointer;
-	font-family: var(--fontPrimary);
-	font-weight: 800;
+	width: 100%;
+	height: 100%;
+
+	padding: 16px;
+
+	overflow: hidden;
+}
+
+main img {
+	width: 100%;
+	z-index: 1;
 }
 </style>
