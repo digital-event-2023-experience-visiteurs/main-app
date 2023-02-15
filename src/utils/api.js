@@ -1,4 +1,4 @@
-const baseApiUrl = "http://localhost:3000/v1"
+const baseApiUrl = "https://expvisit.floriansylvain.fr/v1"
 
 export function fetchSchedules() {
 	return new Promise((resolve, reject) => {
