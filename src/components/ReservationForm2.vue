@@ -44,7 +44,7 @@ async function getDaysFromSchedules(schedules) {
 
 		days.push({
 			formatted: day,
-			raw: new Date(schedule.datetime),
+			raw: schedule.datetime,
 		})
 	})
 
@@ -74,7 +74,7 @@ function getSchedulesByDate(schedules, date) {
 
 		hours.push({
 			formatted: hour,
-			raw: new Date(schedule.datetime),
+			raw: schedule.datetime,
 		})
 	})
 
