@@ -177,7 +177,7 @@ onMounted(async () => {
 			<button
 				type="submit"
 				class="btn-primary-smaller"
-				:disabled="!hourSelected"
+				:disabled="isWorkshopSelected === undefined"
 			>
 				<p>Suivant</p>
 			</button>
