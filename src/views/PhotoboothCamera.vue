@@ -88,7 +88,11 @@ watch(camera, (oldCam, newCam) => {
 	<div v-show="photoUrl == undefined" class="camera">
 		<Camera ref="camera">
 			<p v-if="countDown > 0" class="countdown">{{ countDown }}</p>
-			<button class="take-photo" @click="startCountDown"></button>
+			<button
+				v-if="countDown === 0"
+				@click="startCountDown"
+				class="take-photo"
+			></button>
 			<button @click="switchCamera">CHANGER CAM</button>
 		</Camera>
 	</div>
