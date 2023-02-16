@@ -26,7 +26,7 @@ npm run build
 
 # TODO
 
--   Mettre un décompte de 10 secondes sur le photobooth lors de la prise de photo
+-   Créer un store caméra et stocker le deviceId sélectionnée dedans pour le charger en arrivant sur la page
 -   Indiquer le nombre de personne par réservation
 
 # App kiosk ipad

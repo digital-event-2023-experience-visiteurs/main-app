@@ -7,6 +7,7 @@ import Stars from "../components/Stars.vue"
 
 const camera = ref()
 const photoUrl = ref()
+const countDown = ref(0)
 
 async function blobToB64(blob) {
 	return new Promise((resolve, reject) => {
@@ -53,6 +54,20 @@ async function nextCamera() {
 
 	camera.value.changeCamera(videoInputDevices[nextIndex].deviceId)
 }
+
+function startCountDown() {
+	countDown.value = 10
+	updatecountDown()
+}
+
+function updatecountDown() {
+	if (countDown.value === 0) {
+		takePhoto()
+		return
+	}
+	countDown.value -= 1
+	setTimeout(updatecountDown, 1000)
+}
 </script>
 
 <template>
@@ -63,7 +78,8 @@ async function nextCamera() {
 	></Stars>
 	<div v-if="photoUrl == undefined" class="camera">
 		<Camera ref="camera">
-			<button class="take-photo" @click="takePhoto"></button>
+			<p v-if="countDown > 0" class="countdown">{{ countDown }}</p>
+			<button class="take-photo" @click="startCountDown"></button>
 			<button @click="nextCamera">CHANGER CAM</button>
 		</Camera>
 	</div>
@@ -132,5 +148,22 @@ img {
 	cursor: pointer;
 
 	transform: translateY(-50%);
+}
+
+.countdown {
+	position: absolute;
+	z-index: 2;
+	top: 50%;
+	left: 50%;
+
+	padding: 16px;
+
+	color: #fff;
+	font-weight: 700;
+	font-size: 64px;
+
+	background-color: #0007;
+
+	transform: translate(-50%, -50%);
 }
 </style>
