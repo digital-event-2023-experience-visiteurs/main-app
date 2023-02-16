@@ -42,3 +42,15 @@ export function postPhoto(data) {
 			.catch((error) => reject(error))
 	})
 }
+
+export function getPhoto(name) {
+	return new Promise((resolve, reject) => {
+		fetch(`${baseApiUrl}/photos/${name}`, {
+			method: "GET",
+			headers: { "Content-type": "application/json" },
+		})
+			.then((response) => response.json())
+			.then((article) => resolve(article))
+			.catch((error) => reject(error))
+	})
+}

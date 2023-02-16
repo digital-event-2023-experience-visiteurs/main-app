@@ -26,4 +26,9 @@ npm run build
 
 # TODO
 
+-   Mettre un décompte de 10 secondes sur le photobooth lors de la prise de photo
 -   Indiquer le nombre de personne par réservation
+
+# App kiosk ipad
+
+Surefox Lite

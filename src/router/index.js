@@ -15,14 +15,19 @@ const router = createRouter({
 			},
 		},
 		{
-			path: "/register",
+			path: `/register`,
 			name: "register",
 			component: () => import("../views/ReservationForm.vue"),
 		},
 		{
-			path: "/photobooth",
+			path: `/photobooth`,
 			name: "photobooth",
 			component: () => import("../views/PhotoboothCamera.vue"),
+		},
+		{
+			path: `/photobooth/:imgName`,
+			name: "image",
+			component: () => import("../views/PhotoboothImage.vue"),
 		},
 	],
 })
