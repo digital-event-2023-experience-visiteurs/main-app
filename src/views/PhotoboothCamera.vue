@@ -5,14 +5,21 @@ import { postPhoto } from "../utils/api.js"
 
 const camera = ref()
 
-async function takePhoto() {
-	const blob = await camera.value.snapshot()
-	await postPhoto(blob)
+async function blobToB64(blob) {
+	return new Promise((resolve, reject) => {
+		const reader = new FileReader()
+		reader.readAsDataURL(blob)
+		reader.onloadend = () => {
+			resolve(reader.result)
+		}
+		reader.onerror = reject
+	})
 }
 
-onMounted(() => {
-	console.log(camera.value)
-})
+async function takePhoto() {
+	const blob = await camera.value.snapshot()
+	await postPhoto(await blobToB64(blob))
+}
 </script>
 
 <template>

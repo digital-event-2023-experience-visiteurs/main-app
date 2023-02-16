@@ -30,12 +30,12 @@ export function postUser(user) {
 	})
 }
 
-export function postPhoto(blob) {
+export function postPhoto(data) {
 	return new Promise((resolve, reject) => {
 		fetch(`${baseApiUrl}/photos`, {
 			method: "POST",
 			headers: { "Content-type": "application/json" },
-			body: JSON.stringify({ blob }),
+			body: JSON.stringify({ data }),
 		})
 			.then((response) => response.json())
 			.then((article) => resolve(article))
