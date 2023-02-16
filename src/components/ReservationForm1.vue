@@ -1,8 +1,6 @@
 <script setup>
-import { useRouter } from "vue-router"
 import { useReservationStore } from "@/stores/reservation.js"
 
-const router = useRouter()
 const reservation = useReservationStore()
 
 function updateReservationFields(input) {
@@ -66,13 +64,6 @@ function submitFormHandler() {
 			/>
 		</div>
 		<div id="button-group">
-			<button
-				type="button"
-				class="btn-tertiary"
-				@click="router.push('/')"
-			>
-				Précédent
-			</button>
 			<button type="submit" class="btn-primary-smaller" @click="">
 				<p>Suivant</p>
 			</button>
@@ -98,6 +89,10 @@ form {
 	justify-content: space-between;
 
 	margin: 16px 0;
+}
+
+#button-group > button {
+	margin-left: auto;
 }
 
 img {

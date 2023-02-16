@@ -59,11 +59,22 @@ body {
 	box-shadow: var(--blue) 12px 10px 0;
 }
 
+.btn-primary-smaller:disabled,
+.btn-primary:disabled {
+	color: #404040;
+	background-color: #aaaaaa;
+	box-shadow: #d2d2d2 12px 10px 0;
+}
+
 .btn-primary-smaller {
 	padding: 8px 16px;
 	font-size: 18px;
 	font-weight: 700;
 	box-shadow: var(--yellow) 9px 7px 0;
+}
+
+.btn-primary-smaller:disabled {
+	box-shadow: #d2d2d2 9px 7px 0;
 }
 
 .btn-primary-smaller:active {

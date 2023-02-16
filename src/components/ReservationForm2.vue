@@ -3,17 +3,6 @@ import { useReservationStore } from "@/stores/reservation.js"
 import { ref, onMounted } from "vue"
 import { fetchSchedules } from "../utils/api.js"
 
-const schedulesSteps = {
-	1: {
-		id: "escapeGame",
-		name: "Esape Game",
-	},
-	2: {
-		id: "drone",
-		name: "Drone",
-	},
-}
-
 const reservation = useReservationStore()
 const isWorkshopSelected = ref()
 const daySelected = ref()
@@ -85,6 +74,7 @@ async function getSchedules() {
 	try {
 		return await fetchSchedules()
 	} catch (error) {
+		alert("Service momentanément indisponible.")
 		console.error(error)
 	}
 }
@@ -96,14 +86,15 @@ function onFormSubmit() {
 	if (!hourSelected.value) return
 
 	reservation.data.schedules.push({
-		id: schedulesSteps[reservation.step - 1].id,
+		id: reservation.schedulesSteps[reservation.step - 1].id,
 		datetime: hourSelected.value,
 	})
 }
 
 async function updateSchedules() {
 	allSchedules.value = await getSchedules()
-	allSchedules.value = allSchedules.value[schedulesSteps[reservation.step].id]
+	allSchedules.value =
+		allSchedules.value[reservation.schedulesSteps[reservation.step].id]
 	formattedDays.value = await getDaysFromSchedules(allSchedules.value)
 }
 
@@ -118,7 +109,7 @@ onMounted(async () => {
 	<form @submit.prevent="onFormSubmit">
 		<h3>
 			Souhaitez vous réserver un créneau pour
-			{{ schedulesSteps[reservation.step].name }} ?
+			{{ reservation.schedulesSteps[reservation.step].name }} ?
 		</h3>
 		<div class="input-radio">
 			<input
@@ -184,13 +175,10 @@ onMounted(async () => {
 
 		<div id="button-group">
 			<button
-				type="button"
-				class="btn-tertiary"
-				@click="reservation.step -= 1"
+				type="submit"
+				class="btn-primary-smaller"
+				:disabled="!hourSelected"
 			>
-				Précédent
-			</button>
-			<button type="submit" class="btn-primary-smaller" @click="">
 				<p>Suivant</p>
 			</button>
 		</div>
@@ -204,6 +192,10 @@ onMounted(async () => {
 	justify-content: space-between;
 
 	margin: 16px 0;
+}
+
+#button-group > button {
+	margin-left: auto;
 }
 
 .form-day,

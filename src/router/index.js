@@ -19,6 +19,11 @@ const router = createRouter({
 			name: "register",
 			component: () => import("../views/ReservationForm.vue"),
 		},
+		{
+			path: "/photobooth",
+			name: "photobooth",
+			component: () => import("../views/PhotoboothCamera.vue"),
+		},
 	],
 })
 

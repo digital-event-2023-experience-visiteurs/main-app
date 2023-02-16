@@ -1,4 +1,4 @@
-const baseApiUrl = "https://expvisit.floriansylvain.fr/v1"
+const baseApiUrl = import.meta.env.VITE_API_URL
 
 export function fetchSchedules() {
 	return new Promise((resolve, reject) => {
@@ -23,6 +23,19 @@ export function postUser(user) {
 				email: user.email,
 				schedules: user.schedules,
 			}),
+		})
+			.then((response) => response.json())
+			.then((article) => resolve(article))
+			.catch((error) => reject(error))
+	})
+}
+
+export function postPhoto(blob) {
+	return new Promise((resolve, reject) => {
+		fetch(`${baseApiUrl}/photos`, {
+			method: "POST",
+			headers: { "Content-type": "application/json" },
+			body: JSON.stringify({ blob }),
 		})
 			.then((response) => response.json())
 			.then((article) => resolve(article))
