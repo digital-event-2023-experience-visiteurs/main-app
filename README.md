@@ -6,6 +6,12 @@
 npm install
 ```
 
+### Environment variables
+
+```
+VITE_API_URL=
+```
+
 ### Compile and Hot-Reload for Development
 
 ```sh
@@ -17,3 +23,11 @@ npm run dev
 ```sh
 npm run build
 ```
+
+# TODO
+
+-   Indiquer le nombre de personne par réservation
+
+# App kiosk ipad
+
+Surefox Lite
