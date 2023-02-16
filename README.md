@@ -26,7 +26,6 @@ npm run build
 
 # TODO
 
--   Créer un store caméra et stocker le deviceId sélectionnée dedans pour le charger en arrivant sur la page
 -   Indiquer le nombre de personne par réservation
 
 # App kiosk ipad

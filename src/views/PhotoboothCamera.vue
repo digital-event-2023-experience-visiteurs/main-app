@@ -4,7 +4,9 @@ import { onMounted, ref, watch } from "vue"
 import { postPhoto } from "../utils/api.js"
 import Qrcode from "qrcode.vue"
 import Stars from "../components/Stars.vue"
+import { useCameraStore } from "../stores/camera.js"
 
+const camerStore = useCameraStore()
 const camera = ref()
 const photoUrl = ref()
 const countDown = ref(0)
@@ -41,18 +43,19 @@ onMounted(async () => {
 	cameraElement.setAttribute("muted", "")
 })
 
-async function nextCamera() {
+async function switchCamera() {
 	const devices = await navigator.mediaDevices.enumerateDevices()
 	const videoInputDevices = devices.filter((x) => x.kind === "videoinput")
 
-	const currentIndex = videoInputDevices.indexOf(
-		videoInputDevices.find(
-			(d) => d.deviceId === camera.value.currentDeviceID()
-		)
+	const currentIndex = videoInputDevices.findIndex(
+		(d) => d.deviceId === camera.value.currentDeviceID()
 	)
-	const nextIndex = (currentIndex + 1) % videoInputDevices.length
 
-	camera.value.changeCamera(videoInputDevices[nextIndex].deviceId)
+	const nextIndex = (currentIndex + 1) % videoInputDevices.length
+	const nextCamera = videoInputDevices[nextIndex]
+
+	camerStore.deviceId = nextCamera.deviceId
+	camera.value.changeCamera(nextCamera.deviceId)
 }
 
 function startCountDown() {
@@ -68,6 +71,12 @@ function updatecountDown() {
 	countDown.value -= 1
 	setTimeout(updatecountDown, 1000)
 }
+
+watch(camera, (oldCam, newCam) => {
+	if (oldCam == undefined) return
+	if (!camerStore.deviceId) return
+	camera.value.changeCamera(camerStore.deviceId)
+})
 </script>
 
 <template>
@@ -76,14 +85,14 @@ function updatecountDown() {
 		:css-width-percent="100"
 		:css-height-percent="100"
 	></Stars>
-	<div v-if="photoUrl == undefined" class="camera">
+	<div v-show="photoUrl == undefined" class="camera">
 		<Camera ref="camera">
 			<p v-if="countDown > 0" class="countdown">{{ countDown }}</p>
 			<button class="take-photo" @click="startCountDown"></button>
-			<button @click="nextCamera">CHANGER CAM</button>
+			<button @click="switchCamera">CHANGER CAM</button>
 		</Camera>
 	</div>
-	<div v-else class="qr-code">
+	<div v-if="photoUrl !== undefined" class="qr-code">
 		<img src="/logo-esd.svg" alt="Logo ESD Digital Event 2023" />
 		<div>
 			<h2>Votre photo est prête !</h2>
@@ -91,7 +100,7 @@ function updatecountDown() {
 			<Qrcode :value="getImgUrl(photoUrl.imgName)" :size="300"></Qrcode>
 		</div>
 		<button class="btn-primary" @click="photoUrl = undefined">
-			Reprendre une photo
+			<p>Reprendre une photo</p>
 		</button>
 	</div>
 </template>
