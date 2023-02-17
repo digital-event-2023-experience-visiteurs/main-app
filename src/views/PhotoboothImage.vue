@@ -29,4 +29,8 @@ onMounted(() => {
 	<img :src="imgB64" alt="requested image" />
 </template>
 
-<style scoped></style>
+<style scoped>
+img {
+	width: 100%;
+}
+</style>
