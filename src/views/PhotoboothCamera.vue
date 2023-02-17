@@ -101,7 +101,12 @@ watch(camera, (oldCam, newCam) => {
 		<div>
 			<h2>Votre photo est prête !</h2>
 			<h3>Scannez le QR code pour la télécharger.</h3>
-			<Qrcode :value="getImgUrl(photoUrl.imgName)" :size="300"></Qrcode>
+			<div class="code">
+				<Qrcode
+					:value="getImgUrl(photoUrl.imgName)"
+					:size="300"
+				></Qrcode>
+			</div>
 		</div>
 		<button class="btn-primary" @click="photoUrl = undefined">
 			<p>Reprendre une photo</p>
@@ -178,5 +183,10 @@ img {
 	background-color: #0007;
 
 	transform: translate(-50%, -50%);
+}
+
+.code {
+	border: solid white 16px;
+	background-color: white;
 }
 </style>
