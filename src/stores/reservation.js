@@ -13,11 +13,11 @@ export const useReservationStore = defineStore("reservation", () => {
 	const schedulesSteps = {
 		1: {
 			id: "escapeGame",
-			name: "Esape Game",
+			name: "Escape Game (~3-5 personnes)",
 		},
 		2: {
 			id: "drone",
-			name: "Drone",
+			name: "Drone (~2 personnes)",
 		},
 	}
 
